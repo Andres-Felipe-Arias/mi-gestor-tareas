@@ -25,3 +25,18 @@ app.include_router(auth.router)
 @app.get("/")
 def read_root():
     return {"mensaje": "¡Bienvenido a la API del Gestor de Tareas!"}
+
+from fastapi import FastAPI
+from app.database import engine, Base
+from app.routers import auth, tareas
+
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI(title="API de Gestor de Tareas")
+
+app.include_router(auth.router)
+app.include_router(tareas.router)
+
+@app.get("/")
+def read_root():
+    return {"mensaje": "¡Bienvenido a la API del Gestor de Tareas!"}
